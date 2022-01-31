@@ -1,0 +1,27 @@
+{
+  "name": "slack-bot-pagespeed-insights",
+  "version": "1.0.0",
+  "description": "\"# Slack-bot-PageSpeed-Insights\"",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cgonel/Slack-bot-PageSpeed-Insights.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cgonel/Slack-bot-PageSpeed-Insights/issues"
+  },
+  "homepage": "https://github.com/cgonel/Slack-bot-PageSpeed-Insights#readme",
+  "dependencies": {
+    "@slack/bolt": "^3.9.0",
+    "@types/node": "^17.0.13",
+    "dotenv": "^14.3.2",
+    "psi": "^4.1.0"
+  }
+}
