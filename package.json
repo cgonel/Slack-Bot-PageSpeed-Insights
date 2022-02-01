@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "\"# Slack-bot-PageSpeed-Insights\"",
   "main": "main.js",
+  "type": "module",
   "scripts": {
-    "start": "node main.js",
+    "start": "node build/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
