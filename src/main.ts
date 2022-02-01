@@ -13,7 +13,11 @@ const app = new App({
 app.command('/psi', async ({command, ack, respond}) => {
     await ack();
 
-    const psiReport = await service.psiReport(`${command.text}`)
+    // step: parse request to handle strategy option
+    const request = service.defineRequest(`${command.text}`);
+    const report = await service.generateReport(request);
+    const parsedReport = service.parseReport(report);
+    // const psiReport = await service.psiReport(`${command.text}`)
 
     await respond({
         "blocks": [
@@ -21,7 +25,7 @@ app.command('/psi', async ({command, ack, respond}) => {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `*Summary* \n*URL*: ${psiReport.url}  \n *Strategy*: mobile\n*Performance*: 10`
+                    "text": `*Summary* \n*URL*: ${parsedReport._url}  \n *Strategy*: ${request.strategy}\n*Performance*: ${parsedReport._performance}`
                 }
             },
             {
@@ -44,4 +48,5 @@ app.command('/psi', async ({command, ack, respond}) => {
 
 (async () => {
     await app.start(process.env.PORT || 3000);
+    console.log("Bolt App is listening...")
 })();
