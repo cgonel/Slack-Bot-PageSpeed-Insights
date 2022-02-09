@@ -13,11 +13,18 @@ const app = new App({
 app.command('/psi', async ({command, ack, respond}) => {
     await ack();
 
-    // step: parse request to handle strategy option
-    const request = service.defineRequest(`${command.text}`);
+    const input = `${command.text}`
+
+    if(input.includes("--strategy")){
+        const parsedInput = service.parseInput(input);
+        var request = service.defineRequest(parsedInput[0], parsedInput[1]);
+    } 
+    else {
+        var request = service.defineRequest(input);
+    }
+
     const report = await service.generateReport(request);
     const parsedReport = service.parseReport(report);
-    // const psiReport = await service.psiReport(`${command.text}`)
 
     await respond({
         "blocks": [
@@ -32,14 +39,7 @@ app.command('/psi', async ({command, ack, respond}) => {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "*Field Data* \nCumulative Layout Shift (CLS)              | 33ms\nFirst Contentful Paint (FCP)                  | 1.2s\nFirst Input Delay (FID)                           | 22ms\nLargest Contentful Paint (LCP)             | 2.3s"
-                }
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "*Lab Data*\nCumulative Layout Shift                        | 0.322\nFirst Contentful Paint                            | 3.1s\nLargest Contentful Paint                       | 15.7s\nSpeed Index                                           | 27.6s\nTime to Interactive                                | 75.3s\nTotal Blocking Time                               | 9,420ms"
+                    "text": `*Metrics* \nFirst Contentful Paint                            | ${parsedReport._firstContentfulPaint}\nSpeed Index                                            | ${parsedReport._speedIndex}\nLargest Contentful Paint                        | ${parsedReport._largestContentfulPaint}\nTime to Interactive                                | ${parsedReport._timeToInteractive}\nTotal Blocking Time                               | ${parsedReport._totalBlockingTime}\nCumulative Layout Shift                       | ${parsedReport._cumulativeLayoutShift}`
                 }
             }
         ]
